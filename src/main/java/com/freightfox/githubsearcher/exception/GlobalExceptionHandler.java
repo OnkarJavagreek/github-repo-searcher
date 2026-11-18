@@ -77,6 +77,18 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 
+    @ExceptionHandler(org.springframework.web.servlet.resource.NoResourceFoundException.class)
+    public ResponseEntity<ErrorResponse> handleNoResourceFound(org.springframework.web.servlet.resource.NoResourceFoundException ex) {
+        ErrorResponse response = ErrorResponse.builder()
+                .status(HttpStatus.NOT_FOUND.value())
+                .errorCode("RES_404")
+                .message("Resource not found: " + ex.getResourcePath())
+                .timestamp(Instant.now())
+                .build();
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGenericException(Exception ex) {
         log.error("Unhandled server exception: {}", ex.getMessage(), ex);
