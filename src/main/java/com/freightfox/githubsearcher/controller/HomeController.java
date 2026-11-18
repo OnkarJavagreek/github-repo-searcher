@@ -1,15 +1,18 @@
 package com.freightfox.githubsearcher.controller;
 
 import io.swagger.v3.oas.annotations.Hidden;
-import org.springframework.stereotype.Controller;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+import java.io.IOException;
+
+@RestController
 @Hidden
 public class HomeController {
 
     @GetMapping("/")
-    public String index() {
-        return "redirect:/swagger-ui/index.html";
+    public void index(HttpServletResponse response) throws IOException {
+        response.sendRedirect("/swagger-ui/index.html");
     }
 }
