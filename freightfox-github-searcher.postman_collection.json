@@ -1,0 +1,223 @@
+{
+  "info": {
+    "_postman_id": "c1f7b1b0-9831-419b-a0d7-f41e06fa9911",
+    "name": "FreightFox - GitHub Repository Searcher",
+    "description": "Postman Collection to test all endpoints for the FreightFox GitHub Repository Searcher Assignment.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Search and Store - Spring Boot (Java)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"query\": \"spring boot\",\n  \"language\": \"Java\",\n  \"sort\": \"stars\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/github/search",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "github",
+            "search"
+          ]
+        },
+        "description": "Searches GitHub for repositories matching query 'spring boot' and language 'Java', sorted by stars. Results are upserted into PostgreSQL/DB."
+      },
+      "response": []
+    },
+    {
+      "name": "2. Search and Store - Python",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"query\": \"fastapi\",\n  \"language\": \"Python\",\n  \"sort\": \"stars\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/github/search",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "github",
+            "search"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "3. Retrieve Stored Repositories - All (Default sort: stars)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/github/repositories",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "github",
+            "repositories"
+          ]
+        },
+        "description": "Retrieves all saved repositories sorted by stars descending by default."
+      },
+      "response": []
+    },
+    {
+      "name": "4. Retrieve Stored Repositories - Filter Language (Java) & MinStars (100)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/github/repositories?language=Java&minStars=100&sort=stars",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "github",
+            "repositories"
+          ],
+          "query": [
+            {
+              "key": "language",
+              "value": "Java"
+            },
+            {
+              "key": "minStars",
+              "value": "100"
+            },
+            {
+              "key": "sort",
+              "value": "stars"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "5. Retrieve Stored Repositories - Sort by Forks",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/github/repositories?sort=forks",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "github",
+            "repositories"
+          ],
+          "query": [
+            {
+              "key": "sort",
+              "value": "forks"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "6. Validation Error Test - Blank Query",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"query\": \"\",\n  \"language\": \"Java\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/github/search",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "github",
+            "search"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "7. Invalid Sort Parameter Test",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/github/repositories?sort=invalid_field",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "github",
+            "repositories"
+          ],
+          "query": [
+            {
+              "key": "sort",
+              "value": "invalid_field"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "8. Health Check Actuator",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/actuator/health",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "actuator",
+            "health"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
